@@ -1,0 +1,77 @@
+<div class="sidebar-container" [class.visible]="isVisible" [class.expanded]="isExpanded">
+  <!-- Mobile Overlay -->
+  <div class="sidebar-overlay" [class.active]="isExpanded && isVisible" (click)="toggleSidebar()"></div>
+  
+  <!-- Toggle Button -->
+  <button class="sidebar-toggle" (click)="toggleVisibility()" [title]="isVisible ? 'Hide Sidebar' : 'Show Sidebar'">
+    <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path *ngIf="!isVisible" d="M9 18l6-6-6-6"></path>
+      <path *ngIf="isVisible" d="M15 18l-6-6 6-6"></path>
+    </svg>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" *ngIf="isVisible">
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27,6.96 12,12.01 20.73,6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <span class="brand-text" *ngIf="isExpanded">GoConnect</span>
+      </div>
+      <button class="expand-btn" (click)="toggleSidebar()" [title]="isExpanded ? 'Collapse Sidebar' : 'Expand Sidebar'">
+        <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path *ngIf="!isExpanded" d="M9 18l6-6-6-6"></path>
+          <path *ngIf="isExpanded" d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+      <!-- Main Navigation -->
+      <div class="menu-section">
+        <h3 class="section-title" *ngIf="isExpanded">Navigation</h3>
+        
+        <a routerLink="/" class="menu-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [title]="!isExpanded ? 'Home' : ''">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9,22 9,12 15,12 15,22"></polyline>
+          </svg>
+          <span class="menu-text" *ngIf="isExpanded">Home</span>
+        </a>
+
+        <a routerLink="/hidden-spots" class="menu-item" routerLinkActive="active" [title]="!isExpanded ? 'Hidden Spots' : ''">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span class="menu-text" *ngIf="isExpanded">Hidden Spots</span>
+        </a>
+
+        <div class="menu-item disabled" [title]="!isExpanded ? 'Game Zones (Coming Soon)' : ''">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <span class="menu-text" *ngIf="isExpanded">Game Zones</span>
+          <span class="coming-soon-badge" *ngIf="isExpanded">Soon</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Footer -->
+    <div class="sidebar-footer" *ngIf="isExpanded">
+      <div class="footer-content">
+        <p class="footer-text">GoConnect v1.0</p>
+        <p class="footer-subtext">Explore & Connect</p>
+      </div>
+    </div>
+  </div>
+</div>

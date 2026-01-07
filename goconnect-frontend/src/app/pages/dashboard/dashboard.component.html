@@ -1,0 +1,133 @@
+<div class="dashboard-container">
+  <app-navbar activeRoute="home"></app-navbar>
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Welcome to GoConnect</h1>
+        <p class="hero-subtitle">Your ultimate social networking platform for discovering amazing places, connecting with friends, and sharing unforgettable experiences.</p>
+        <div class="hero-actions">
+          <a routerLink="/forum" class="btn btn-primary btn-lg">Explore Forums</a>
+          <a routerLink="/hidden-spots" class="btn btn-outline btn-lg">Discover Hidden Spots</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title">What You Can Do</h2>
+      <div class="features-grid">
+        <div class="feature-card card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <path d="M8 10h.01"></path>
+              <path d="M12 10h.01"></path>
+              <path d="M16 10h.01"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Join Forums</h3>
+          <p class="feature-description">Connect with like-minded people, share experiences, and discover new perspectives in our vibrant community forums.</p>
+          <a routerLink="/forum" class="btn btn-outline btn-sm">Explore Forums</a>
+        </div>
+        
+        <div class="feature-card card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Make Friends</h3>
+          <p class="feature-description">Build meaningful connections, send friend requests, and expand your social network with people who share your interests.</p>
+          <a routerLink="/friends" class="btn btn-outline btn-sm">Find Friends</a>
+        </div>
+        
+        <div class="feature-card card">
+          <div class="feature-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M6.34 17.66l-1.41 1.41"></path>
+              <path d="M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Hidden Spots</h3>
+          <p class="feature-description">Discover and share secret locations, hidden gems, and amazing places that only locals know about.</p>
+          <a routerLink="/hidden-spots" class="btn btn-outline btn-sm">Discover Spots</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analytics Section -->
+  <section class="analytics-section">
+    <div class="container">
+      <h2 class="section-title">Community Insights</h2>
+      <div class="analytics-grid">
+        <div class="analytics-card card">
+          <div class="card-header">
+            <h3 class="card-title">Forum Locations</h3>
+            <p class="card-subtitle">Popular discussion locations</p>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas #locationChart></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <div class="analytics-card card">
+          <div class="card-header">
+            <h3 class="card-title">Trending Hashtags</h3>
+            <p class="card-subtitle">Most popular topics</p>
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas #hashtagChart></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Getting Started Section -->
+  <section class="getting-started-section">
+    <div class="container">
+      <h2 class="section-title">Getting Started</h2>
+      <div class="steps-grid">
+        <div class="step-card card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Create Your Profile</h3>
+          <p class="step-description">Set up your profile with your interests and preferences to get personalized recommendations.</p>
+        </div>
+        
+        <div class="step-card card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Join Conversations</h3>
+          <p class="step-description">Participate in forums, share your thoughts, and engage with the community on topics you care about.</p>
+        </div>
+        
+        <div class="step-card card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Discover & Share</h3>
+          <p class="step-description">Find hidden gems, share your favorite spots, and help others discover amazing places.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</div>

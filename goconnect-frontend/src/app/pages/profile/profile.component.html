@@ -1,0 +1,58 @@
+<app-navbar activeRoute="profile"></app-navbar>
+
+<!-- Profile Content -->
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>User Profile</h1>
+    <p>Manage your account information and settings</p>
+  </div>
+
+  <div *ngIf="currentUser" class="profile-layout">
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-info">
+        <div class="profile-avatar">
+          <div class="avatar-placeholder">
+            {{ (currentUser.name || currentUser.username)?.charAt(0)?.toUpperCase() }}
+          </div>
+        </div>
+        
+        <div class="profile-details">
+          <h2>{{ currentUser.name }}</h2>
+          <p class="username">{{ '@' + currentUser.username }}</p>
+          
+          <div class="profile-fields">
+            <div class="field-group">
+              <label>Full Name</label>
+              <div class="field-value">{{ currentUser.name }}</div>
+            </div>
+            
+            <div class="field-group">
+              <label>Username</label>
+              <div class="field-value">{{ currentUser.username }}</div>
+            </div>
+            
+            <div class="field-group">
+              <label>Email</label>
+              <div class="field-value">{{ currentUser.email }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="btn btn-primary">Edit Profile</button>
+        <button class="btn btn-secondary">Account Settings</button>
+        <button (click)="logout()" class="btn btn-outline">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="!currentUser" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading profile...</p>
+  </div>
+</div>
+
+<app-footer></app-footer>

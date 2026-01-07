@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <img src="assets/new.png" alt="GoConnect Logo" class="brand-logo">
+      <h2 class="brand-title">GoConnect</h2>
+    </div>
+    
+    <div class="nav-menu">
+      <a routerLink="/" class="nav-link" [class.active]="activeRoute === 'home'">
+        <span class="nav-text">Home</span>
+      </a>
+      <a routerLink="/forum" class="nav-link" [class.active]="activeRoute === 'forum'">
+        <span class="nav-text">Forums</span>
+      </a>
+      <a routerLink="/friends" class="nav-link" [class.active]="activeRoute === 'friends'">
+        <span class="nav-text">Friends</span>
+      </a>
+    </div>
+    
+    <div class="nav-actions">
+      <button class="theme-toggle btn-ghost" (click)="toggleTheme()" [title]="isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'">
+        <div class="theme-bars">
+          <span class="bar" [class.active]="!isDarkTheme"></span>
+          <span class="bar" [class.active]="isDarkTheme"></span>
+        </div>
+      </button>
+      
+      <!-- Show when NOT logged in -->
+      <ng-container *ngIf="!isLoggedIn()">
+        <a routerLink="/login" class="btn btn-outline btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+      </ng-container>
+      
+      <!-- Show when logged in -->
+      <ng-container *ngIf="isLoggedIn()">
+        <div class="user-menu">
+          <span class="welcome-text">Welcome, {{ currentUser?.name || currentUser?.username }}!</span>
+          <div class="user-actions">
+            <a routerLink="/profile" class="btn btn-ghost btn-sm">Profile</a>
+            <button (click)="logout()" class="btn btn-outline btn-sm">Logout</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+<app-sidebar></app-sidebar>

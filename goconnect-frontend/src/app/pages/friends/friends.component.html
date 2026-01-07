@@ -1,0 +1,175 @@
+<!-- Navigation Bar -->
+<app-navbar activeRoute="friends"></app-navbar>
+
+<!-- Friends Content -->
+<div class="friends-container">
+  <div class="friends-header">
+    <h1>Friends</h1>
+    <p>Connect and manage your friendships</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'find-friends'"
+      (click)="switchTab('find-friends')">
+      Find Friends
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'pending-requests'"
+      (click)="switchTab('pending-requests')">
+      Pending Requests ({{ pendingRequests.length }})
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'my-friends'"
+      (click)="switchTab('my-friends')">
+      My Friends ({{ approvedFriends.length }})
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+    <button (click)="clearMessages()" class="btn btn-sm btn-outline">Dismiss</button>
+  </div>
+
+  <div *ngIf="successMessage" class="success-container">
+    <p class="success-message">{{ successMessage }}</p>
+    <button (click)="clearMessages()" class="btn btn-sm btn-outline">Dismiss</button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Find Friends Tab -->
+  <div *ngIf="activeTab === 'find-friends' && !loading" class="tab-content">
+    <div class="section-header">
+      <h2>Find New Friends</h2>
+      <button (click)="loadAvailableUsers()" class="btn btn-secondary">Refresh</button>
+    </div>
+
+    <div *ngIf="availableUsers.length === 0" class="empty-state">
+      <h3>No Users Available</h3>
+      <p>All users are either already your friends or have pending requests.</p>
+    </div>
+
+    <div class="users-grid">
+      <div *ngFor="let user of availableUsers" class="user-card">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">
+            {{ user.name.charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        
+        <div class="user-info">
+          <h3>{{ user.name }}</h3>
+          <p class="username">{{ '@' + user.username }}</p>
+          <p class="email">{{ user.email }}</p>
+          <p class="age">Age: {{ user.age }}</p>
+        </div>
+
+        <div class="user-actions">
+          <button 
+            *ngIf="canSendRequest(user)"
+            (click)="sendFriendRequest(user.id)" 
+            class="btn btn-primary btn-sm">
+            Add Friend
+          </button>
+          <button 
+            *ngIf="!canSendRequest(user)"
+            class="btn btn-secondary btn-sm" 
+            disabled>
+            {{ getStatusText(user.friendshipStatus) }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Requests Tab -->
+  <div *ngIf="activeTab === 'pending-requests' && !loading" class="tab-content">
+    <div class="section-header">
+      <h2>Pending Friend Requests</h2>
+      <button (click)="loadPendingRequests()" class="btn btn-secondary">Refresh</button>
+    </div>
+
+    <div *ngIf="pendingRequests.length === 0" class="empty-state">
+      <h3>No Pending Requests</h3>
+      <p>You don't have any pending friend requests.</p>
+    </div>
+
+    <div class="requests-grid">
+      <div *ngFor="let request of pendingRequests" class="request-card">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">
+            {{ request.userRegister.name.charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        
+        <div class="user-info">
+          <h3>{{ request.userRegister.name }}</h3>
+          <p class="username">{{ '@' + request.userRegister.username }}</p>
+          <p class="email">{{ request.userRegister.email }}</p>
+          <p class="age">Age: {{ request.userRegister.age }}</p>
+        </div>
+
+        <div class="request-actions">
+          <button 
+            (click)="approveFriendRequest(request.id)" 
+            class="btn btn-primary btn-sm">
+            Accept
+          </button>
+          <button 
+            (click)="rejectFriendRequest(request.id)" 
+            class="btn btn-outline btn-sm">
+            Decline
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Friends Tab -->
+  <div *ngIf="activeTab === 'my-friends' && !loading" class="tab-content">
+    <div class="section-header">
+      <h2>My Friends</h2>
+      <button (click)="loadApprovedFriends()" class="btn btn-secondary">Refresh</button>
+    </div>
+
+    <div *ngIf="approvedFriends.length === 0" class="empty-state">
+      <h3>No Friends Yet</h3>
+      <p>Start connecting with people by sending friend requests!</p>
+      <button (click)="switchTab('find-friends')" class="btn btn-primary">Find Friends</button>
+    </div>
+
+    <div class="friends-grid">
+      <div *ngFor="let friendship of approvedFriends" class="friend-card">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">
+            {{ friendship.name.charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        
+        <div class="user-info">
+          <h3>{{ friendship.name }}</h3>
+          <p class="username">{{ '@' + friendship.username }}</p>
+          <p class="email">{{ friendship.email }}</p>
+          <p class="age">Age: {{ friendship.age }}</p>
+        </div>
+
+        <div class="friend-actions">
+          <button class="btn btn-outline btn-sm">View Profile</button>
+          <button class="btn btn-secondary btn-sm">Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
