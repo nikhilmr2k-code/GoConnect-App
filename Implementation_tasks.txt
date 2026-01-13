@@ -1,0 +1,55 @@
+Register
+Forum
+Friends
+Hidden Spots
+Profile
+
+
+User Perspective for Hidden Spots
+
+1. User - > Logged In -> Get Location -> Store in Local Storage -> Create Table Location -> Attributes : id,locationName,latitude,longitude,
+    register_id -> Save in DB -> When User Clicks on any Hidden Spot -> Based on the Spot -> Get Weather Report -> Show advises to the 
+    user if the weather affects the user to visit the spot or not.
+
+2. User ->  Challenges for Hidden Spot and Benefits for hidden spot
+
+                                    User
+                                    |
+                                Hidden Spots
+      |      |.    |.     |.      |       |          |       |.      |.           |                
+    Food   beach/falls  temple. fort   parks    mountains  resort.    plantation.   private stay
+
+ * Food = Understand what User Wants by asking few questions
+
+                * If its food section, ask for health condition or try to know by other features  by mic access
+                * first let the user ask if there is a need of recommendation and if the user wants,
+                * get the health condtion of the user and represent the best hotel with the 
+                  required category food spot near his place desc  
+                * Weather condition can also be told
+                * Location details can be tracked and also based on the users regular location,
+                  it can be informed like the location of the food spot is near if the other user location is close to it.
+                * Based on the friends place also, the distance can be calculated and inform like the particular spot is 
+                 near to the friend location.
+                * Store the cache table data of hidden spots in cache_hidden_spot with the following details
+                    * Search locationName 
+                    * Filter
+                    * currentLocation
+                    *  latitude
+                    * longitude
+                    * register_id
+
+                * Based on the location details, food spots should be arranged in the food spots
+
+CODING IMPLEMENTATION
+
+    - create hidden spots :: cache_location, cache_hidden_spot 
+    - ask for questions from a chat
+    - where/what do u want to visit/have ?
+    - food/ hotel/resturant/
+    - would you mind to share what u want to have ?
+    - Biriyani
+    - Health api - called to know the consequence of biriyani and ask it as a question to the user
+    
+
+
+* Beach/Falls = 
