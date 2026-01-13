@@ -5,6 +5,9 @@ Hidden Spots
 Profile
 
 
+--------------------------------------------------------------------------------------------------------------------------------
+
+
 User Perspective for Hidden Spots
 
 1. User - > Logged In -> Get Location -> Store in Local Storage -> Create Table Location -> Attributes : id,locationName,latitude,longitude,
@@ -18,6 +21,8 @@ User Perspective for Hidden Spots
                                 Hidden Spots
       |      |.    |.     |.      |       |          |       |.      |.           |                
     Food   beach/falls  temple. fort   parks    mountains  resort.    plantation.   private stay
+
+--------------------------------------------------------------------------------------------------------------------------------
 
  * Food = Understand what User Wants by asking few questions
 
@@ -40,7 +45,9 @@ User Perspective for Hidden Spots
 
                 * Based on the location details, food spots should be arranged in the food spots
 
-CODING IMPLEMENTATION
+--------------------------------------------------------------------------------------------------------------------------------
+
+ IMPLEMENTATION IDEA
 
     - create hidden spots :: cache_location, cache_hidden_spot 
     - ask for questions from a chat
@@ -49,7 +56,15 @@ CODING IMPLEMENTATION
     - would you mind to share what u want to have ?
     - Biriyani
     - Health api - called to know the consequence of biriyani and ask it as a question to the user
-    
+    - Do you have any health condition ?
+    - If yes, then ask for the health condition
+    - and make the user realise about the health issue and if they r not concerned.
+    - concerned then tell about the food that are good and available close to the location based on the Forum discussions.
+    - If no, show all the food spots with biriyani and make him click from the chat itself
+    - Consider and make user know about the weather condition outside for travel
+
+--------------------------------------------------------------------------------------------------------------------------------
 
 
-* Beach/Falls = 
+FOOD IMPLEMENTATION TODAY - 14-01-2026
+
