@@ -6,6 +6,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { HiddenSpotsService, HiddenSpot } from '../../services/hidden-spots.service';
 import { AuthService } from '../../services/auth.service';
+import { ForumService, ForumResponse } from '../../services/forum.service';
 
 @Component({
   selector: 'app-hidden-spots',
@@ -17,6 +18,7 @@ import { AuthService } from '../../services/auth.service';
 export class HiddenSpotsComponent implements OnInit {
   activeTab: string = 'discover';
   spots: HiddenSpot[] = [];
+  discussedSpots: ForumResponse[] = []; // New property for discussed hidden spots
   newSpot: HiddenSpot = {
     name: '',
     latitude: 0,
@@ -35,6 +37,7 @@ export class HiddenSpotsComponent implements OnInit {
   constructor(
     private hiddenSpotsService: HiddenSpotsService,
     private authService: AuthService,
+    private forumService: ForumService, // Add ForumService
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
@@ -52,6 +55,9 @@ export class HiddenSpotsComponent implements OnInit {
       this.userLocation = { latitude: 40.7128, longitude: -74.0060 };
       this.loadHiddenSpots();
     }
+    
+    // Load discussed hidden spots
+    this.loadDiscussedHiddenSpots();
   }
 
   checkSidebarState() {
@@ -245,5 +251,38 @@ export class HiddenSpotsComponent implements OnInit {
     } else {
       alert('Please fill in all required fields: Spot Name and Location');
     }
+  }
+
+  // Load discussed hidden spots from forums
+  loadDiscussedHiddenSpots() {
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.forumService.getDiscussedHiddenSpots(userId).subscribe({
+        next: (forums) => {
+          // Filter forums that have pin coordinates and convert to viewable spots
+          this.discussedSpots = forums.filter(forum => 
+            forum.pinLatitude != null && forum.pinLongitude != null
+          );
+        },
+        error: (error) => {
+          console.error('Error loading discussed hidden spots:', error);
+          this.discussedSpots = [];
+        }
+      });
+    }
+  }
+
+  // View discussed spot on map (same as viewSpotOnMap but for forum spots)
+  viewDiscussedSpotOnMap(forum: ForumResponse) {
+    const spotToView = {
+      name: forum.name,
+      latitude: forum.pinLatitude!,
+      longitude: forum.pinLongitude!,
+      locationDescription: forum.description || 'Forum discussion location',
+      locationAddress: forum.pinLocation || forum.location || 'Unknown location'
+    };
+    
+    localStorage.setItem('viewHiddenSpot', JSON.stringify(spotToView));
+    this.router.navigate(['/map-selector']);
   }
 }

@@ -1,5 +1,5 @@
 .forum-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   background-color: var(--bg-primary);
   padding: var(--spacing-xl) 0;
 }
@@ -44,10 +44,11 @@
 .tab-btn:hover {
   color: var(--primary-color);
   border-color: var(--primary-color);
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(5, 150, 105, 0.1));
 }
 
 .tab-btn.active {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--text-inverse);
   border-color: var(--primary-color);
 }
@@ -145,12 +146,12 @@
 }
 
 .forum-visibility.public {
-  background: linear-gradient(135deg, var(--secondary-color), #059669);
+  background: linear-gradient(135deg, var(--tertiary-color), var(--success-color));
   color: var(--text-inverse);
 }
 
 .forum-visibility.private {
-  background: linear-gradient(135deg, var(--warning-color), #ea580c);
+  background: linear-gradient(135deg, var(--warning-color), #f59e0b);
   color: var(--text-inverse);
 }
 
@@ -187,7 +188,7 @@
 }
 
 .hashtag {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: var(--text-inverse);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-lg);
@@ -300,7 +301,7 @@
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
   transform: translateY(-2px);
 }
 

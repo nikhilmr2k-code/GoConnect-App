@@ -2,7 +2,7 @@
 <app-navbar activeRoute="friends"></app-navbar>
 
 <!-- Friends Content -->
-<div class="friends-container">
+<div class="friends-container main-content">
   <div class="friends-header">
     <h1>Friends</h1>
     <p>Connect and manage your friendships</p>
@@ -10,22 +10,13 @@
 
   <!-- Tab Navigation -->
   <div class="tab-navigation">
-    <button 
-      class="tab-btn" 
-      [class.active]="activeTab === 'find-friends'"
-      (click)="switchTab('find-friends')">
+    <button class="tab-btn" [class.active]="activeTab === 'find-friends'" (click)="switchTab('find-friends')">
       Find Friends
     </button>
-    <button 
-      class="tab-btn" 
-      [class.active]="activeTab === 'pending-requests'"
-      (click)="switchTab('pending-requests')">
+    <button class="tab-btn" [class.active]="activeTab === 'pending-requests'" (click)="switchTab('pending-requests')">
       Pending Requests ({{ pendingRequests.length }})
     </button>
-    <button 
-      class="tab-btn" 
-      [class.active]="activeTab === 'my-friends'"
-      (click)="switchTab('my-friends')">
+    <button class="tab-btn" [class.active]="activeTab === 'my-friends'" (click)="switchTab('my-friends')">
       My Friends ({{ approvedFriends.length }})
     </button>
   </div>
@@ -66,7 +57,7 @@
             {{ user.name.charAt(0).toUpperCase() }}
           </div>
         </div>
-        
+
         <div class="user-info">
           <h3>{{ user.name }}</h3>
           <p class="username">{{ '@' + user.username }}</p>
@@ -75,16 +66,10 @@
         </div>
 
         <div class="user-actions">
-          <button 
-            *ngIf="canSendRequest(user)"
-            (click)="sendFriendRequest(user.id)" 
-            class="btn btn-primary btn-sm">
+          <button *ngIf="canSendRequest(user)" (click)="sendFriendRequest(user.id)" class="btn btn-primary btn-sm">
             Add Friend
           </button>
-          <button 
-            *ngIf="!canSendRequest(user)"
-            class="btn btn-secondary btn-sm" 
-            disabled>
+          <button *ngIf="!canSendRequest(user)" class="btn btn-secondary btn-sm" disabled>
             {{ getStatusText(user.friendshipStatus) }}
           </button>
         </div>
@@ -111,7 +96,7 @@
             {{ request.userRegister.name.charAt(0).toUpperCase() }}
           </div>
         </div>
-        
+
         <div class="user-info">
           <h3>{{ request.userRegister.name }}</h3>
           <p class="username">{{ '@' + request.userRegister.username }}</p>
@@ -120,14 +105,10 @@
         </div>
 
         <div class="request-actions">
-          <button 
-            (click)="approveFriendRequest(request.id)" 
-            class="btn btn-primary btn-sm">
+          <button (click)="approveFriendRequest(request.id)" class="btn btn-primary btn-sm">
             Accept
           </button>
-          <button 
-            (click)="rejectFriendRequest(request.id)" 
-            class="btn btn-outline btn-sm">
+          <button (click)="rejectFriendRequest(request.id)" class="btn btn-outline btn-sm">
             Decline
           </button>
         </div>
@@ -155,7 +136,7 @@
             {{ friendship.name.charAt(0).toUpperCase() }}
           </div>
         </div>
-        
+
         <div class="user-info">
           <h3>{{ friendship.name }}</h3>
           <p class="username">{{ '@' + friendship.username }}</p>

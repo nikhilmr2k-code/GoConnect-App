@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Load preferences after component initializes
-    this.sidebarService.loadPreferences();
+    // this.sidebarService.loadPreferences();
     
     // Subscribe to sidebar state changes
     this.subscriptions.push(

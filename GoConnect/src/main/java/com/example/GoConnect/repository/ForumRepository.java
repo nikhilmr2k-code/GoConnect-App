@@ -49,5 +49,12 @@ public interface ForumRepository extends JpaRepository<Forum, Long> {
     // Get forum hashtag counts
     @Query("SELECT f.hashtag, COUNT(f) FROM Forum f WHERE f.hashtag IS NOT NULL AND f.hashtag != '' GROUP BY f.hashtag ORDER BY COUNT(f) DESC")
     List<Object[]> getForumHashtagCounts();
+    
+    // Get discussed hidden spots - forums with pin locations that user can access
+    @Query(value = "SELECT * FROM forum WHERE visibility = 'public' or register_id=:userId OR register_id IN (SELECT CASE WHEN friend_register_id = :userId THEN user_register_id ELSE friend_register_id" 
+      +" END FROM friend WHERE friend_register_id = :userId OR user_register_id = :userId and approval_status='Y')", nativeQuery = true)
+    List<Forum> getDiscussedHiddenSpots(@Param("userId") Long userId);
+
+
 
 }

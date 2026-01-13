@@ -7,6 +7,10 @@ public class ForumRequest {
     private String hashtag;
     private String comments;
     private String location;
+    private String pinLocation; // New field for pin location
+    private Double pinLatitude; // Latitude for pin location
+    private Double pinLongitude; // Longitude for pin location
+    private Long hiddenSpotId; // One-to-one relation with hidden spot
     private String description;
     private String photos;
     
@@ -15,13 +19,14 @@ public class ForumRequest {
     
     // Constructor
     public ForumRequest(String name, Long registerId, String visibility, String hashtag,
-                       String comments, String location, String description, String photos) {
+                       String comments, String location, String pinLocation, String description, String photos) {
         this.name = name;
         this.registerId = registerId;
         this.visibility = visibility;
         this.hashtag = hashtag;
         this.comments = comments;
         this.location = location;
+        this.pinLocation = pinLocation;
         this.description = description;
         this.photos = photos;
     }
@@ -89,5 +94,37 @@ public class ForumRequest {
     
     public void setPhotos(String photos) {
         this.photos = photos;
+    }
+    
+    public String getPinLocation() {
+        return pinLocation;
+    }
+    
+    public void setPinLocation(String pinLocation) {
+        this.pinLocation = pinLocation;
+    }
+    
+    public Long getHiddenSpotId() {
+        return hiddenSpotId;
+    }
+    
+    public void setHiddenSpotId(Long hiddenSpotId) {
+        this.hiddenSpotId = hiddenSpotId;
+    }
+    
+    public Double getPinLatitude() {
+        return pinLatitude;
+    }
+    
+    public void setPinLatitude(Double pinLatitude) {
+        this.pinLatitude = pinLatitude;
+    }
+    
+    public Double getPinLongitude() {
+        return pinLongitude;
+    }
+    
+    public void setPinLongitude(Double pinLongitude) {
+        this.pinLongitude = pinLongitude;
     }
 }

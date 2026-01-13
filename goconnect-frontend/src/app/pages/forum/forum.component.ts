@@ -16,19 +16,21 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 })
 export class ForumComponent implements OnInit {
   currentUser: any = null;
-  
+  sliderPosition = 0;
+
+
   // Forum data
   forums: ForumResponse[] = [];
   userForums: ForumResponse[] = [];
   selectedForum: ForumResponse | null = null;
-  
+
   // UI state
   activeTab: 'all' | 'my-forums' | 'create' | 'search' = 'all';
   loading = false;
   error: string | null = null;
-  
+
   // Create forum form
-  newForum: ForumRequest = {
+  newForum: any = {
     name: '',
     registerId: 0,
     visibility: 'public',
@@ -36,9 +38,12 @@ export class ForumComponent implements OnInit {
     comments: '',
     location: '',
     description: '',
-    photos: ''
+    photos: '',
+    pinLocation: '', // New field for pin location
+    pinLatitude: undefined, // Pin coordinates
+    pinLongitude: undefined
   };
-  
+
   // Search filters
   searchFilters = {
     location: '',
@@ -50,7 +55,7 @@ export class ForumComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private forumService: ForumService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Subscribe to current user changes
@@ -61,7 +66,19 @@ export class ForumComponent implements OnInit {
         this.newForum.registerId = userId;
       }
     });
-    
+
+    // Check if returning from map selector for forum creation
+    if (typeof localStorage !== 'undefined') {
+      const forumFormData = localStorage.getItem('forumFormData');
+      const selectedLocation = localStorage.getItem('selectedForumLocation');
+      if (forumFormData || selectedLocation) {
+        this.activeTab = 'create';
+      }
+    }
+
+    // Check for selected location from map
+    this.checkSelectedLocation();
+
     // Load initial data
     this.loadPublicForums();
   }
@@ -73,27 +90,7 @@ export class ForumComponent implements OnInit {
   }
 
   // Tab switching
-  switchTab(tab: 'all' | 'my-forums' | 'create' | 'search') {
-    this.activeTab = tab;
-    this.error = null;
-    
-    switch (tab) {
-      case 'all':
-        this.loadPublicForums();
-        break;
-      case 'my-forums':
-        if (this.isLoggedIn()) {
-          this.loadUserForums();
-        }
-        break;
-      case 'create':
-        this.resetCreateForm();
-        break;
-      case 'search':
-        this.resetSearchFilters();
-        break;
-    }
-  }
+
 
   // Forum loading methods
   loadPublicForums() {
@@ -105,14 +102,14 @@ export class ForumComponent implements OnInit {
 
     this.loading = true;
     this.error = null;
-    
-    this.forumService.getPublicForums(userId).subscribe({
+
+    this.forumService.getDiscussedHiddenSpots(userId).subscribe({
       next: (forums) => {
         this.forums = forums;
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading public forums:', error);
+        console.error('Error loading forums:', error);
         this.error = 'Failed to load forums. Please try again.';
         this.loading = false;
       }
@@ -125,10 +122,10 @@ export class ForumComponent implements OnInit {
       this.error = 'Please log in to view your forums.';
       return;
     }
-    
+
     this.loading = true;
     this.error = null;
-    
+
     this.forumService.getForumsByUser(userId).subscribe({
       next: (forums) => {
         this.userForums = forums;
@@ -153,7 +150,10 @@ export class ForumComponent implements OnInit {
       comments: '',
       location: '',
       description: '',
-      photos: ''
+      photos: '',
+      pinLocation: '', // New field for pin location
+      pinLatitude: undefined,
+      pinLongitude: undefined
     };
   }
 
@@ -171,11 +171,24 @@ export class ForumComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.forumService.saveForum(this.newForum).subscribe({
+    // Create ForumRequest object with proper mapping
+    const forumRequest: ForumRequest = {
+      name: this.newForum.name,
+      registerId: this.newForum.registerId,
+      visibility: this.newForum.visibility,
+      hashtag: this.newForum.hashtag,
+      comments: this.newForum.comments,
+      location: this.newForum.location,
+      description: this.newForum.description,
+      photos: this.newForum.photos,
+      pinLatitude: this.newForum.pinLatitude,
+      pinLongitude: this.newForum.pinLongitude
+    };
+
+    this.forumService.saveForum(forumRequest).subscribe({
       next: (response) => {
         this.loading = false;
         this.resetCreateForm();
-        this.switchTab('my-forums');
         // Show success message
         alert('Forum created successfully!');
       },
@@ -185,6 +198,54 @@ export class ForumComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  // Map selector methods
+  openMapSelector() {
+    if (typeof localStorage !== 'undefined') {
+      // Save current form data before navigating
+      localStorage.setItem('forumFormData', JSON.stringify({
+        name: this.newForum.name,
+        description: this.newForum.description,
+        location: this.newForum.location,
+        hashtag: this.newForum.hashtag,
+        comments: this.newForum.comments,
+        photos: this.newForum.photos,
+        visibility: this.newForum.visibility
+      }));
+    }
+    this.router.navigate(['/map-selector']);
+  }
+
+  checkSelectedLocation() {
+    if (typeof localStorage !== 'undefined') {
+      const selectedLocation = localStorage.getItem('selectedForumLocation');
+      if (selectedLocation) {
+        const location = JSON.parse(selectedLocation);
+        this.newForum.pinLatitude = location.lat;
+        this.newForum.pinLongitude = location.lng;
+        this.newForum.pinLocation = location.name;
+        this.newForum.location = location.name; // Set location description
+        localStorage.removeItem('selectedForumLocation');
+      }
+
+      // Restore form data
+      const formData = localStorage.getItem('forumFormData');
+      if (formData) {
+        const data = JSON.parse(formData);
+        this.newForum.name = data.name || '';
+        this.newForum.description = data.description || '';
+        // Don't overwrite location if it was set from map
+        if (!this.newForum.location) {
+          this.newForum.location = data.location || '';
+        }
+        this.newForum.hashtag = data.hashtag || '';
+        this.newForum.comments = data.comments || '';
+        this.newForum.photos = data.photos || '';
+        this.newForum.visibility = data.visibility || 'public';
+        localStorage.removeItem('forumFormData');
+      }
+    }
   }
 
   // Search methods
@@ -275,4 +336,34 @@ export class ForumComponent implements OnInit {
   closeForumDetails() {
     this.selectedForum = null;
   }
+
+  switchTab(tab: 'all' | 'my-forums' | 'create' | 'search') {
+    this.activeTab = tab;
+    this.error = null;
+
+    const tabWidth = 160;
+    const order = ['all', 'my-forums', 'create', 'search'];
+    this.sliderPosition = order.indexOf(tab) * tabWidth;
+
+    switch (tab) {
+      case 'all':
+        this.loadPublicForums();
+        break;
+      case 'my-forums':
+        if (this.isLoggedIn()) {
+          this.loadUserForums();
+        }
+        break;
+      case 'create':
+        this.resetCreateForm();
+        break;
+      case 'search':
+        this.resetSearchFilters();
+        break;
+    }
+  }
+
+
+
+
 }

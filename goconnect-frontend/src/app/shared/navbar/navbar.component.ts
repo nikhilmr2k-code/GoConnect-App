@@ -14,6 +14,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 })
 export class NavbarComponent {
   @Input() activeRoute: string = '';
+  @Input() showSidebar: boolean = true;
   currentUser: any = null;
   isDarkTheme = false;
 

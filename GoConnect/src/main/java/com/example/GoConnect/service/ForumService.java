@@ -68,6 +68,8 @@ public class ForumService {
             request.getHashtag(),
             request.getComments(),
             request.getLocation(),
+            request.getPinLatitude(),
+            request.getPinLongitude(),
             request.getDescription(),
             request.getPhotos()
         );
@@ -144,6 +146,8 @@ public class ForumService {
             forum.getHashtag(),
             forum.getComments(),
             forum.getLocation(),
+            forum.getPinLatitude(),
+            forum.getPinLongitude(),
             forum.getDescription(),
             forum.getPhotos()
         );
@@ -203,5 +207,17 @@ public class ForumService {
      */
     public List<Object[]> getForumHashtagCounts() {
         return forumRepository.getForumHashtagCounts();
+    }
+    
+    /**
+     * Get discussed hidden spots - forums with pin locations accessible to user
+     * @param userId The user ID
+     * @return List of forums with pin locations
+     */
+    public List<ForumResponse> getDiscussedHiddenSpots(Long userId) {
+        System.out.println("Getting discussed hidden spots for userId: " + userId);
+        List<Forum> forums = forumRepository.getDiscussedHiddenSpots(userId);
+        System.out.println("Found " + forums.size() + " discussed hidden spots for userId: " + userId);
+        return convertToForumResponseList(forums);
     }
 }

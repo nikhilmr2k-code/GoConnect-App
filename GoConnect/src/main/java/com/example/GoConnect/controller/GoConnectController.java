@@ -244,6 +244,13 @@ public class GoConnectController {
         List<HiddenSpots> spots = hiddenSpotsService.searchHiddenSpots(query);
         return ResponseEntity.ok(spots);
     }
+    
+    // Get discussed hidden spots from forums
+    @GetMapping("/forums/discussed-spots/{userId}")
+    public ResponseEntity<List<ForumResponse>> getDiscussedHiddenSpots(@PathVariable Long userId) {
+        List<ForumResponse> forums = forumService.getDiscussedHiddenSpots(userId);
+        return ResponseEntity.ok(forums);
+    }
 
     
     public static class LocationRequest {

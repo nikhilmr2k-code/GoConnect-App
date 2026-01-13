@@ -25,7 +25,12 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
     List<Friend> findPendingFriendRequests(@Param("userId") Long userId);
     
     // Get all approved friends for a user
-    @Query(value="SELECT v.* FROM register v JOIN friend f ON (v.id = f.user_register_id OR v.id = f.friend_register_id) WHERE v.id != :userId AND f.approval_status = 'Y'", nativeQuery=true)
+    @Query(value="select v.* from register v where v.id!=:userId and v.id in (SELECT CASE "
+    +"WHEN friend_register_id = :userId THEN user_register_id "
+    +"ELSE friend_register_id " 
+    +"END "
+    +"FROM friend "
+    +"WHERE friend_register_id = :userId OR user_register_id = :userId and approval_status='Y')", nativeQuery=true)
     List<Register> findApprovedFriends(@Param("userId") Long userId);
 
     

@@ -31,7 +31,10 @@
 }
 
 .brand-title {
-  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
   font-size: var(--font-size-xl);
   font-weight: 700;
@@ -60,12 +63,12 @@
 
 .nav-link:hover {
   color: var(--primary-color);
-  background-color: var(--bg-secondary);
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(5, 150, 105, 0.1));
 }
 
 .nav-link.active {
   color: var(--primary-color);
-  background-color: var(--bg-secondary);
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), rgba(5, 150, 105, 0.15));
   font-weight: 600;
 }
 

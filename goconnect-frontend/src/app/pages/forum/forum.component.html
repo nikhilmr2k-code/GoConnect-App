@@ -2,38 +2,26 @@
 <app-navbar activeRoute="forum"></app-navbar>
 
 <!-- Forum Content -->
-<div class="forum-container">
+<div class="forum-container main-content">
+  <!-- Hero Header -->
   <div class="forum-header">
-    <h1>Forums</h1>
-    <p>Join discussions and connect with the community</p>
+    <h1>Community Forums</h1>
+    <p>Connect, discuss, and share experiences with our vibrant community</p>
   </div>
 
   <!-- Tab Navigation -->
   <div class="tab-navigation">
-    <button 
-      class="tab-btn" 
-      [class.active]="activeTab === 'all'"
-      (click)="switchTab('all')">
+    <button class="tab-btn" [class.active]="activeTab === 'all'" (click)="switchTab('all')">
       All Forums
     </button>
-    <button 
-      *ngIf="isLoggedIn()"
-      class="tab-btn" 
-      [class.active]="activeTab === 'my-forums'"
+    <button *ngIf="isLoggedIn()" class="tab-btn" [class.active]="activeTab === 'my-forums'"
       (click)="switchTab('my-forums')">
       My Forums
     </button>
-    <button 
-      *ngIf="isLoggedIn()"
-      class="tab-btn" 
-      [class.active]="activeTab === 'create'"
-      (click)="switchTab('create')">
-      Create Forum
+    <button *ngIf="isLoggedIn()" class="tab-btn" [class.active]="activeTab === 'create'" (click)="switchTab('create')">
+      Create
     </button>
-    <button 
-      class="tab-btn" 
-      [class.active]="activeTab === 'search'"
-      (click)="switchTab('search')">
+    <button class="tab-btn" [class.active]="activeTab === 'search'" (click)="switchTab('search')">
       Search
     </button>
   </div>
@@ -66,21 +54,24 @@
       <div *ngFor="let forum of forums" class="forum-card">
         <div class="forum-card-header">
           <h3>{{ forum.name }}</h3>
-          <span class="forum-visibility" [class.public]="forum.visibility === 'public'" 
-                [class.private]="forum.visibility === 'private'">
+          <span class="forum-visibility" [class.public]="forum.visibility === 'public'"
+            [class.private]="forum.visibility === 'private'">
             {{ forum.visibility }}
           </span>
         </div>
-        
+
         <div class="forum-content">
           <p class="forum-description">{{ forum.description || 'No description available' }}</p>
-          
+
           <div class="forum-meta">
             <div class="forum-author">
               <strong>By:</strong> {{ forum.userInfo.name || 'Unknown' }}
             </div>
             <div class="forum-location" *ngIf="forum.location">
               <strong>Location:</strong> {{ forum.location }}
+            </div>
+            <div class="forum-pin-location" *ngIf="forum.pinLocation">
+              <strong>Pin Location:</strong> {{ forum.pinLocation }}
             </div>
           </div>
 
@@ -114,18 +105,21 @@
       <div *ngFor="let forum of userForums" class="forum-card">
         <div class="forum-card-header">
           <h3>{{ forum.name }}</h3>
-          <span class="forum-visibility" [class.public]="forum.visibility === 'public'" 
-                [class.private]="forum.visibility === 'private'">
+          <span class="forum-visibility" [class.public]="forum.visibility === 'public'"
+            [class.private]="forum.visibility === 'private'">
             {{ forum.visibility }}
           </span>
         </div>
-        
+
         <div class="forum-content">
           <p class="forum-description">{{ forum.description || 'No description available' }}</p>
-          
+
           <div class="forum-meta">
             <div class="forum-location" *ngIf="forum.location">
               <strong>Location:</strong> {{ forum.location }}
+            </div>
+            <div class="forum-pin-location" *ngIf="forum.pinLocation">
+              <strong>Pin Location:</strong> {{ forum.pinLocation }}
             </div>
           </div>
 
@@ -149,7 +143,7 @@
         <h2>Create New Forum</h2>
         <p>Start a new discussion and connect with the community</p>
       </div>
-      
+
       <form (ngSubmit)="createForum()" class="create-forum-form">
         <div class="form-grid">
           <div class="form-group full-width">
@@ -158,40 +152,29 @@
               <span class="required">*</span>
             </label>
             <div class="form-input-wrapper">
-              <input 
-                type="text" 
-                [(ngModel)]="newForum.name" 
-                name="forumName"
-                class="form-control" 
-                placeholder="Enter an engaging forum name"
-                required>
+              <input type="text" [(ngModel)]="newForum.name" name="forumName" class="form-control"
+                placeholder="Enter an engaging forum name" required>
             </div>
           </div>
 
           <div class="form-group full-width">
             <label class="form-label">Description</label>
             <div class="form-input-wrapper">
-              <textarea 
-                [(ngModel)]="newForum.description" 
-                name="description"
-                class="form-control" 
-                placeholder="Describe what your forum is about..."
-                rows="4"></textarea>
+              <textarea [(ngModel)]="newForum.description" name="description" class="form-control"
+                placeholder="Describe what your forum is about..." rows="4"></textarea>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Visibility</label>
             <div class="visibility-options">
-              <div class="visibility-option" 
-                   [class.selected]="newForum.visibility === 'public'"
-                   (click)="newForum.visibility = 'public'">
+              <div class="visibility-option" [class.selected]="newForum.visibility === 'public'"
+                (click)="newForum.visibility = 'public'">
                 <div class="option-title">Public</div>
                 <div class="option-desc">Anyone can join</div>
               </div>
-              <div class="visibility-option" 
-                   [class.selected]="newForum.visibility === 'private'"
-                   (click)="newForum.visibility = 'private'">
+              <div class="visibility-option" [class.selected]="newForum.visibility === 'private'"
+                (click)="newForum.visibility = 'private'">
                 <div class="option-title">Private</div>
                 <div class="option-desc">Invite only</div>
               </div>
@@ -201,23 +184,31 @@
           <div class="form-group">
             <label class="form-label">Location</label>
             <div class="form-input-wrapper">
-              <input 
-                type="text" 
-                [(ngModel)]="newForum.location" 
-                name="location"
-                class="form-control" 
+              <input type="text" [(ngModel)]="newForum.location" name="location" class="form-control"
                 placeholder="City, Country">
             </div>
           </div>
 
           <div class="form-group">
+            <label class="form-label">Pin Location</label>
+            <div class="form-input-wrapper">
+              <input type="text" [(ngModel)]="newForum.pinLocation" name="pinLocation" class="form-control" readonly
+                placeholder="Select pin location on map (optional)">
+            </div>
+            <button type="button" class="btn btn-outline mt-2" (click)="openMapSelector()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2"></polygon>
+                <line x1="8" y1="2" x2="8" y2="18"></line>
+                <line x1="16" y1="6" x2="16" y2="22"></line>
+              </svg>
+              Select Pin Location
+            </button>
+          </div>
+
+          <div class="form-group">
             <label class="form-label">Hashtag</label>
             <div class="form-input-wrapper">
-              <input 
-                type="text" 
-                [(ngModel)]="newForum.hashtag" 
-                name="hashtag"
-                class="form-control" 
+              <input type="text" [(ngModel)]="newForum.hashtag" name="hashtag" class="form-control"
                 placeholder="technology">
             </div>
           </div>
@@ -225,11 +216,7 @@
           <div class="form-group">
             <label class="form-label">Photo URL</label>
             <div class="form-input-wrapper">
-              <input 
-                type="url" 
-                [(ngModel)]="newForum.photos" 
-                name="photos"
-                class="form-control" 
+              <input type="url" [(ngModel)]="newForum.photos" name="photos" class="form-control"
                 placeholder="https://example.com/image.jpg">
             </div>
           </div>
@@ -237,12 +224,8 @@
           <div class="form-group full-width">
             <label class="form-label">Initial Discussion</label>
             <div class="form-input-wrapper">
-              <textarea 
-                [(ngModel)]="newForum.comments" 
-                name="comments"
-                class="form-control" 
-                placeholder="Start the conversation with an opening message..."
-                rows="3"></textarea>
+              <textarea [(ngModel)]="newForum.comments" name="comments" class="form-control"
+                placeholder="Start the conversation with an opening message..." rows="3"></textarea>
             </div>
           </div>
         </div>
@@ -261,16 +244,12 @@
   <div *ngIf="activeTab === 'search' && !loading" class="tab-content">
     <div class="search-container">
       <h2>Search Forums</h2>
-      
+
       <div class="search-options">
         <div class="search-option">
           <h3>Search by Location</h3>
           <div class="search-form">
-            <input 
-              type="text" 
-              [(ngModel)]="searchFilters.location" 
-              class="form-control" 
-              placeholder="Enter location">
+            <input type="text" [(ngModel)]="searchFilters.location" class="form-control" placeholder="Enter location">
             <button (click)="searchByLocation()" class="btn btn-primary">Search</button>
           </div>
         </div>
@@ -278,10 +257,7 @@
         <div class="search-option">
           <h3>Search by Hashtag</h3>
           <div class="search-form">
-            <input 
-              type="text" 
-              [(ngModel)]="searchFilters.hashtag" 
-              class="form-control" 
+            <input type="text" [(ngModel)]="searchFilters.hashtag" class="form-control"
               placeholder="Enter hashtag (with or without #)">
             <button (click)="searchByHashtag()" class="btn btn-primary">Search</button>
           </div>
@@ -290,11 +266,7 @@
         <div class="search-option">
           <h3>Search by Forum ID</h3>
           <div class="search-form">
-            <input 
-              type="number" 
-              [(ngModel)]="searchFilters.forumId" 
-              class="form-control" 
-              placeholder="Enter forum ID">
+            <input type="number" [(ngModel)]="searchFilters.forumId" class="form-control" placeholder="Enter forum ID">
             <button (click)="searchById()" class="btn btn-primary">Search</button>
           </div>
         </div>
@@ -307,21 +279,24 @@
           <div *ngFor="let forum of forums" class="forum-card">
             <div class="forum-card-header">
               <h3>{{ forum.name }}</h3>
-              <span class="forum-visibility" [class.public]="forum.visibility === 'public'" 
-                    [class.private]="forum.visibility === 'private'">
+              <span class="forum-visibility" [class.public]="forum.visibility === 'public'"
+                [class.private]="forum.visibility === 'private'">
                 {{ forum.visibility }}
               </span>
             </div>
-            
+
             <div class="forum-content">
               <p class="forum-description">{{ forum.description || 'No description available' }}</p>
-              
+
               <div class="forum-meta">
                 <div class="forum-author">
                   <strong>By:</strong> {{ forum.userInfo.name || 'Unknown' }}
                 </div>
                 <div class="forum-location" *ngIf="forum.location">
                   <strong>Location:</strong> {{ forum.location }}
+                </div>
+                <div class="forum-pin-location" *ngIf="forum.pinLocation">
+                  <strong>Pin Location:</strong> {{ forum.pinLocation }}
                 </div>
               </div>
 
@@ -348,7 +323,7 @@
       <h2>{{ selectedForum.name }}</h2>
       <button (click)="closeForumDetails()" class="close-btn">&times;</button>
     </div>
-    
+
     <div class="modal-body">
       <div class="forum-detail-info">
         <div class="detail-row">
@@ -361,9 +336,9 @@
           <strong>Email:</strong> {{ selectedForum.userInfo.email }}
         </div>
         <div class="detail-row">
-          <strong>Visibility:</strong> 
-          <span class="forum-visibility" [class.public]="selectedForum.visibility === 'public'" 
-                [class.private]="selectedForum.visibility === 'private'">
+          <strong>Visibility:</strong>
+          <span class="forum-visibility" [class.public]="selectedForum.visibility === 'public'"
+            [class.private]="selectedForum.visibility === 'private'">
             {{ selectedForum.visibility }}
           </span>
         </div>
@@ -380,12 +355,12 @@
           <strong>Comments:</strong> {{ selectedForum.comments }}
         </div>
         <div class="detail-row" *ngIf="selectedForum.photos">
-          <strong>Photos:</strong> 
+          <strong>Photos:</strong>
           <img [src]="selectedForum.photos" alt="Forum photo" class="forum-photo" />
         </div>
       </div>
     </div>
-    
+
     <div class="modal-footer">
       <button class="btn btn-primary">Join Discussion</button>
       <button (click)="closeForumDetails()" class="btn btn-outline">Close</button>

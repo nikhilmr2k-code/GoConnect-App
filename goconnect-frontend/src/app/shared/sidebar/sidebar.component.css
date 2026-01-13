@@ -53,7 +53,7 @@
 }
 
 .sidebar-toggle:hover {
-  background: linear-gradient(135deg, var(--primary-hover), #059669);
+  background: linear-gradient(135deg, var(--primary-hover), #047857);
   transform: translateX(4px) scale(1.05);
   box-shadow: var(--shadow-xl);
 }
@@ -227,7 +227,7 @@
 }
 
 .menu-item:hover {
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(5, 150, 105, 0.1));
   color: var(--text-primary);
   transform: translateX(4px);
   box-shadow: var(--shadow-md);
@@ -238,7 +238,7 @@
 }
 
 .menu-item.active {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(16, 185, 129, 0.1));
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.15), rgba(5, 150, 105, 0.15));
   color: var(--primary-color);
   font-weight: 600;
   box-shadow: var(--shadow-md);
@@ -289,7 +289,7 @@
 .coming-soon-badge {
   margin-left: auto;
   font-size: var(--font-size-xs);
-  background: linear-gradient(135deg, var(--warning-color), #f97316);
+  background: linear-gradient(135deg, var(--secondary-color), var(--tertiary-color));
   color: var(--text-inverse);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--radius-xl);
@@ -401,11 +401,11 @@ body.dark-theme .sidebar {
 }
 
 body.dark-theme .menu-item:hover {
-  background: linear-gradient(135deg, var(--bg-tertiary), rgba(79, 70, 229, 0.1));
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.2), rgba(5, 150, 105, 0.2));
 }
 
 body.dark-theme .menu-item.active {
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(16, 185, 129, 0.1));
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.25), rgba(5, 150, 105, 0.25));
 }
 
 /* Animation for smooth transitions */

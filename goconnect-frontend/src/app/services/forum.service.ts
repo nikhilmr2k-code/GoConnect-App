@@ -11,6 +11,10 @@ export interface ForumRequest {
   location: string;
   description: string;
   photos: string;
+  pinLocation?: string; // New field for pin location
+  pinLatitude?: number; // Pin coordinates
+  pinLongitude?: number;
+  hiddenSpotId?: number; // One-to-one relation with hidden spot
 }
 
 export interface ForumResponse {
@@ -28,6 +32,17 @@ export interface ForumResponse {
   location: string;
   description: string;
   photos: string;
+  pinLocation?: string; // New field for pin location
+  pinLatitude?: number; // Pin coordinates
+  pinLongitude?: number;
+  hiddenSpot?: {
+    id: number;
+    name: string;
+    latitude: number;
+    longitude: number;
+    locationDescription: string;
+    locationAddress: string;
+  }; // One-to-one relation with hidden spot
 }
 
 @Injectable({
@@ -93,5 +108,11 @@ export class ForumService {
   checkForumOwnership(forumId: number, userId: number): Observable<boolean> {
     console.log('Checking if userId', userId, 'owns forum', forumId);
     return this.http.get<boolean>(`${this.baseUrl}/forum/${forumId}/check-owner/${userId}`);
+  }
+
+  // Get discussed hidden spots from forums
+  getDiscussedHiddenSpots(userId: number): Observable<ForumResponse[]> {
+    console.log('Getting discussed hidden spots for userId:', userId);
+    return this.http.get<ForumResponse[]>(`${this.baseUrl}/forums/discussed-spots/${userId}`);
   }
 }

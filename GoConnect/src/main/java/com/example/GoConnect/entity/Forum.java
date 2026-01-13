@@ -1,6 +1,13 @@
 package com.example.GoConnect.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "forum")
@@ -29,6 +36,12 @@ public class Forum {
     @Column
     private String location;
     
+    @Column
+    private Double pinLatitude; 
+
+    @Column
+    private Double pinLongitude;
+    
     @Column(columnDefinition = "TEXT")
     private String description;
     
@@ -40,13 +53,15 @@ public class Forum {
     
     // Constructor
     public Forum(String name, Register register, String visibility, String hashtag, 
-                 String comments, String location, String description, String photos) {
+                 String comments, String location,Double pinLatitude,Double pinLongitude, String description, String photos) {
         this.name = name;
         this.register = register;
         this.visibility = visibility;
         this.hashtag = hashtag;
         this.comments = comments;
         this.location = location;
+        this.pinLatitude = pinLatitude;
+        this.pinLongitude = pinLongitude;
         this.description = description;
         this.photos = photos;
     }
@@ -123,4 +138,21 @@ public class Forum {
     public void setPhotos(String photos) {
         this.photos = photos;
     }
+
+    public Double getPinLatitude() {
+        return pinLatitude;
+    }
+    
+    public void setPinLatitude(Double pinLatitude) {
+        this.pinLatitude = pinLatitude;  
+    }
+
+    public Double getPinLongitude() {
+        return pinLongitude;
+    }
+    
+    public void setPinLongitude(Double pinLongitude) {
+        this.pinLongitude = pinLongitude;
+    }
+    
 }
